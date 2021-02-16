@@ -2,7 +2,7 @@
 
 ![](https://blog.ikomia.com/wp-content/uploads/2021/02/vgg_logo.png)
 
-Ikomia plugin to load Deep Learning image dataset in [VIA format](https://www.robots.ox.ac.uk/~vgg/software/via/) (VGG Image Anotator). Such plugin converts a VIA format dataset to the Ikomia format so that it can be connected to any Deep Learning training algorithms dedicated to object detection.
+Ikomia plugin to load Deep Learning image dataset in [VIA format](https://www.robots.ox.ac.uk/~vgg/software/via/) (VGG Image Anotator). It converts the dataset to the Ikomia format so that it can be connected to any Deep Learning training algorithms dedicated to object detection.
 
 ### How to use it?
 Here are the steps:
