@@ -36,7 +36,7 @@ class VIA_DatasetProcess(core.CProtocolTask):
     def __init__(self, name, param):
         core.CProtocolTask.__init__(self, name)
         # Add input/output of the process here
-        self.addOutput(datasetio.IkDatasetIO(dataprocess.DatasetFormat.VIA))
+        self.addOutput(datasetio.IkDatasetIO("via"))
         self.addOutput(dataprocess.CDblFeatureIO())
 
         # Create parameters class
@@ -104,7 +104,7 @@ class VIA_DatasetProcessFactory(dataprocess.CProcessFactory):
         # relative path -> as displayed in Ikomia application process tree
         self.info.path = "Plugins/Python/Dataset"
         self.info.iconPath = "icons/vgg_logo.png"
-        self.info.version = "1.0.0"
+        self.info.version = "1.1.0"
         self.info.keywords = "vgg,dataset,annotation,json,train,dnn"
 
     def create(self, param=None):
