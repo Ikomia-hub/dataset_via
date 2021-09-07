@@ -1,43 +1,43 @@
 from ikomia import core, dataprocess
 from ikomia.dnn import dataset, datasetio
 import copy
-# Your imports below
+
 
 # --------------------
 # - Class to handle the process parameters
 # - Inherits core.CProtocolTaskParam from Ikomia API
 # --------------------
-class VIA_DatasetParam(core.CProtocolTaskParam):
+class VIA_DatasetParam(core.CWorkflowTaskParam):
 
     def __init__(self):
-        core.CProtocolTaskParam.__init__(self)
+        core.CWorkflowTaskParam.__init__(self)
         # Place default value initialization here
         self.via_json_path = ""
 
-    def setParamMap(self, paramMap):
+    def setParamMap(self, param_map):
         # Set parameters values from Ikomia application
         # Parameters values are stored as string and accessible like a python dict
-        self.via_json_path = paramMap["via_json_path"]
+        self.via_json_path = param_map["via_json_path"]
 
     def getParamMap(self):
         # Send parameters values to Ikomia application
         # Create the specific dict structure (string container)
-        paramMap = core.ParamMap()
-        paramMap["via_json_path"] = self.via_json_path
-        return paramMap
+        param_map = core.ParamMap()
+        param_map["via_json_path"] = self.via_json_path
+        return param_map
 
 
 # --------------------
 # - Class which implements the process
 # - Inherits core.CProtocolTask or derived from Ikomia API
 # --------------------
-class VIA_DatasetProcess(core.CProtocolTask):
+class VIA_DatasetProcess(core.CWorkflowTask):
 
     def __init__(self, name, param):
-        core.CProtocolTask.__init__(self, name)
+        core.CWorkflowTask.__init__(self, name)
         # Add input/output of the process here
         self.addOutput(datasetio.IkDatasetIO("via"))
-        self.addOutput(dataprocess.CDblFeatureIO())
+        self.addOutput(dataprocess.CNumericIO())
 
         # Create parameters class
         if param is None:
@@ -85,10 +85,10 @@ class VIA_DatasetProcess(core.CProtocolTask):
 # - Factory class to build process object
 # - Inherits dataprocess.CProcessFactory from Ikomia API
 # --------------------
-class VIA_DatasetProcessFactory(dataprocess.CProcessFactory):
+class VIA_DatasetProcessFactory(dataprocess.CTaskFactory):
 
     def __init__(self):
-        dataprocess.CProcessFactory.__init__(self)
+        dataprocess.CTaskFactory.__init__(self)
         # Set process information as string here
         self.info.name = "VIA_Dataset"
         self.info.shortDescription = "Load VGG Image Annotator dataset"

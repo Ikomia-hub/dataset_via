@@ -1,6 +1,4 @@
 from ikomia import dataprocess
-import VIA_Dataset_process as processMod
-import VIA_Dataset_widget as widgetMod
 
 
 # --------------------
@@ -13,9 +11,11 @@ class VIA_Dataset(dataprocess.CPluginProcessInterface):
         dataprocess.CPluginProcessInterface.__init__(self)
 
     def getProcessFactory(self):
+        from VIA_Dataset.VIA_Dataset_process import VIA_DatasetProcessFactory
         # Instantiate process object
-        return processMod.VIA_DatasetProcessFactory()
+        return VIA_DatasetProcessFactory()
 
     def getWidgetFactory(self):
+        from VIA_Dataset.VIA_Dataset_widget import VIA_DatasetWidgetFactory
         # Instantiate associated widget object
-        return widgetMod.VIA_DatasetWidgetFactory()
+        return VIA_DatasetWidgetFactory()

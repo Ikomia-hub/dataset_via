@@ -1,5 +1,6 @@
 from ikomia import utils, core, dataprocess
-import VIA_Dataset_process as processMod
+from ikomia.utils import pyqtutils, qtconversion
+from VIA_Dataset.VIA_Dataset_process import VIA_DatasetParam
 # PyQt GUI framework
 from PyQt5.QtWidgets import *
 
@@ -8,24 +9,24 @@ from PyQt5.QtWidgets import *
 # - Class which implements widget associated with the process
 # - Inherits core.CProtocolTaskWidget from Ikomia API
 # --------------------
-class VIA_DatasetWidget(core.CProtocolTaskWidget):
+class VIA_DatasetWidget(core.CWorkflowTaskWidget):
 
     def __init__(self, param, parent):
-        core.CProtocolTaskWidget.__init__(self, parent)
+        core.CWorkflowTaskWidget.__init__(self, parent)
 
         if param is None:
-            self.parameters = processMod.VIA_DatasetParam()
+            self.parameters = VIA_DatasetParam()
         else:
             self.parameters = param
 
         # Create layout : QGridLayout by default
         self.grid_layout = QGridLayout()
 
-        self.browse_json = utils.append_browse_file(self.grid_layout, label="VIA json file",
-                                                   path=self.parameters.via_json_path, filter="*.json")
+        self.browse_json = pyqtutils.append_browse_file(self.grid_layout, label="VIA json file",
+                                                        path=self.parameters.via_json_path, filter="*.json")
 
         # PyQt -> Qt wrapping
-        layout_ptr = utils.PyQtToQt(self.grid_layout)
+        layout_ptr = qtconversion.PyQtToQt(self.grid_layout)
 
         # Set widget layout
         self.setLayout(layout_ptr)
@@ -39,10 +40,10 @@ class VIA_DatasetWidget(core.CProtocolTaskWidget):
         self.emitApply(self.parameters)
 
 
-#--------------------
-#- Factory class to build process widget object
-#- Inherits dataprocess.CWidgetFactory from Ikomia API
-#--------------------
+# --------------------
+# - Factory class to build process widget object
+# - Inherits dataprocess.CWidgetFactory from Ikomia API
+# --------------------
 class VIA_DatasetWidgetFactory(dataprocess.CWidgetFactory):
 
     def __init__(self):
