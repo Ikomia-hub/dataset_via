@@ -7,7 +7,7 @@ import copy
 # - Class to handle the process parameters
 # - Inherits core.CProtocolTaskParam from Ikomia API
 # --------------------
-class VIA_DatasetParam(core.CWorkflowTaskParam):
+class DatasetViaParam(core.CWorkflowTaskParam):
 
     def __init__(self):
         core.CWorkflowTaskParam.__init__(self)
@@ -31,7 +31,7 @@ class VIA_DatasetParam(core.CWorkflowTaskParam):
 # - Class which implements the process
 # - Inherits core.CProtocolTask or derived from Ikomia API
 # --------------------
-class VIA_DatasetProcess(core.CWorkflowTask):
+class DatasetVia(core.CWorkflowTask):
 
     def __init__(self, name, param):
         core.CWorkflowTask.__init__(self, name)
@@ -41,7 +41,7 @@ class VIA_DatasetProcess(core.CWorkflowTask):
 
         # Create parameters class
         if param is None:
-            self.setParam(VIA_DatasetParam())
+            self.setParam(DatasetViaParam())
         else:
             self.setParam(copy.deepcopy(param))
 
@@ -85,12 +85,12 @@ class VIA_DatasetProcess(core.CWorkflowTask):
 # - Factory class to build process object
 # - Inherits dataprocess.CProcessFactory from Ikomia API
 # --------------------
-class VIA_DatasetProcessFactory(dataprocess.CTaskFactory):
+class DatasetViaFactory(dataprocess.CTaskFactory):
 
     def __init__(self):
         dataprocess.CTaskFactory.__init__(self)
         # Set process information as string here
-        self.info.name = "VIA_Dataset"
+        self.info.name = "dataset_via"
         self.info.shortDescription = "Load VGG Image Annotator dataset"
         self.info.description = "Load VGG Image Annotator (VIA) dataset. " \
                                 "This plugin converts a given dataset in VIA format to Ikomia format. " \
@@ -109,4 +109,4 @@ class VIA_DatasetProcessFactory(dataprocess.CTaskFactory):
 
     def create(self, param=None):
         # Create process object
-        return VIA_DatasetProcess(self.info.name, param)
+        return DatasetVia(self.info.name, param)
