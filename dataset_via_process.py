@@ -14,16 +14,17 @@ class DatasetViaParam(core.CWorkflowTaskParam):
         # Place default value initialization here
         self.via_json_path = ""
 
-    def setParamMap(self, param_map):
+    def set_values(self, param_map):
         # Set parameters values from Ikomia application
         # Parameters values are stored as string and accessible like a python dict
         self.via_json_path = param_map["via_json_path"]
 
-    def getParamMap(self):
+    def get_values(self):
         # Send parameters values to Ikomia application
         # Create the specific dict structure (string container)
-        param_map = core.ParamMap()
-        param_map["via_json_path"] = self.via_json_path
+        param_map = {
+            "via_json_path": self.via_json_path
+        }
         return param_map
 
 
@@ -36,16 +37,16 @@ class DatasetVia(core.CWorkflowTask):
     def __init__(self, name, param):
         core.CWorkflowTask.__init__(self, name)
         # Add input/output of the process here
-        self.addOutput(datasetio.IkDatasetIO("via"))
-        self.addOutput(dataprocess.CNumericIO())
+        self.add_output(datasetio.IkDatasetIO("via"))
+        self.add_output(dataprocess.CNumericIO())
 
         # Create parameters class
         if param is None:
-            self.setParam(DatasetViaParam())
+            self.set_param_object(DatasetViaParam())
         else:
-            self.setParam(copy.deepcopy(param))
+            self.set_param_object(copy.deepcopy(param))
 
-    def getProgressSteps(self):
+    def get_progress_steps(self):
         # Function returning the number of progress steps for this process
         # This is handled by the main progress bar of Ikomia application
         return 1
@@ -53,32 +54,32 @@ class DatasetVia(core.CWorkflowTask):
     def run(self):
         # Core function of your process
         # Call beginTaskRun for initialization
-        self.beginTaskRun()
+        self.begin_task_run()
 
         # Get parameters :
-        param = self.getParam()
+        param = self.get_param_object()
 
         # Get dataset output :
-        output = self.getOutput(0)
+        output = self.get_output(0)
         output.data = dataset.load_via_dataset(param.via_json_path)
         output.has_bckgnd_class = False
 
         # Class labels output
-        numeric_out = self.getOutput(1)
-        numeric_out.clearData()
-        numeric_out.setOutputType(dataprocess.NumericOutputType.TABLE)
+        numeric_out = self.get_output(1)
+        numeric_out.clear_data()
+        numeric_out.set_output_type(dataprocess.NumericOutputType.TABLE)
 
         class_ids = []
         for i in range(len(output.data["metadata"]["category_names"])):
             class_ids.append(i)
 
-        numeric_out.addValueList(class_ids, "Id", list(output.data["metadata"]["category_names"].values()))
+        numeric_out.add_value_list(class_ids, "Id", list(output.data["metadata"]["category_names"].values()))
 
         # Step progress bar:
-        self.emitStepProgress()
+        self.emit_step_progress()
 
         # Call endTaskRun to finalize process
-        self.endTaskRun()
+        self.end_task_run()
 
 
 # --------------------
@@ -91,7 +92,7 @@ class DatasetViaFactory(dataprocess.CTaskFactory):
         dataprocess.CTaskFactory.__init__(self)
         # Set process information as string here
         self.info.name = "dataset_via"
-        self.info.shortDescription = "Load VGG Image Annotator dataset"
+        self.info.short_description = "Load VGG Image Annotator dataset"
         self.info.description = "Load VGG Image Annotator (VIA) dataset. " \
                                 "This plugin converts a given dataset in VIA format to Ikomia format. " \
                                 "Once loaded, all images can be visualized with their respective annotations. " \
@@ -99,11 +100,11 @@ class DatasetViaFactory(dataprocess.CTaskFactory):
                                 "to this converter."
         self.info.authors = "Ikomia team"
         self.info.license = "MIT License"
-        self.info.documentationLink = "https://www.robots.ox.ac.uk/~vgg/software/via/"
+        self.info.documentation_link = "https://www.robots.ox.ac.uk/~vgg/software/via/"
         self.info.repo = "https://github.com/Ikomia-dev"
         # relative path -> as displayed in Ikomia application process tree
         self.info.path = "Plugins/Python/Dataset"
-        self.info.iconPath = "icons/vgg_logo.png"
+        self.info.icon_path = "icons/vgg_logo.png"
         self.info.version = "1.1.0"
         self.info.keywords = "vgg,dataset,annotation,json,train,dnn"
 
