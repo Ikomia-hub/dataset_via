@@ -12,18 +12,18 @@ class DatasetViaParam(core.CWorkflowTaskParam):
     def __init__(self):
         core.CWorkflowTaskParam.__init__(self)
         # Place default value initialization here
-        self.via_json_path = ""
+        self.via_json_file = ""
 
     def set_values(self, param_map):
         # Set parameters values from Ikomia application
         # Parameters values are stored as string and accessible like a python dict
-        self.via_json_path = param_map["via_json_path"]
+        self.via_json_file = param_map["via_json_file"]
 
     def get_values(self):
         # Send parameters values to Ikomia application
         # Create the specific dict structure (string container)
         param_map = {
-            "via_json_path": self.via_json_path
+            "via_json_file": self.via_json_file
         }
         return param_map
 
@@ -61,7 +61,7 @@ class DatasetVia(core.CWorkflowTask):
 
         # Get dataset output :
         output = self.get_output(0)
-        output.data = dataset.load_via_dataset(param.via_json_path)
+        output.data = dataset.load_via_dataset(param.via_json_file)
         output.has_bckgnd_class = False
 
         # Class labels output

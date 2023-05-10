@@ -23,7 +23,7 @@ class DatasetViaWidget(core.CWorkflowTaskWidget):
         self.grid_layout = QGridLayout()
 
         self.browse_json = pyqtutils.append_browse_file(self.grid_layout, label="VIA json file",
-                                                        path=self.parameters.via_json_path, filter="*.json")
+                                                        path=self.parameters.via_json_file, filter="*.json")
 
         # PyQt -> Qt wrapping
         layout_ptr = qtconversion.PyQtToQt(self.grid_layout)
@@ -34,7 +34,7 @@ class DatasetViaWidget(core.CWorkflowTaskWidget):
     def on_apply(self):
         # Apply button clicked slot
         # Get parameters from widget
-        self.parameters.via_json_path = self.browse_json.path
+        self.parameters.via_json_file = self.browse_json.path
 
         # Send signal to launch the process
         self.emit_apply(self.parameters)
