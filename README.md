@@ -19,10 +19,9 @@
     </a> 
 </p>
 
-Load VGG Image Annotator (VIA) dataset. This plugin converts a given dataset in VIA format to Ikomia format. Once loaded, all images can be visualized with their respective annotations. Then, any training algorithms from the Ikomia marketplace can be connected to this converter.
+Load VGG Image Annotator (VIA) dataset. This plugin converts a given dataset in VIA format to Ikomia format. Then, any training algorithms from the Ikomia marketplace can be connected to this converter.
 
-[Insert illustrative image here. Image must be accessible publicly, in algorithm Github repository for example.
-<img src="images/illustration.png"  alt="Illustrative image" width="30%" height="30%">]
+![VIA](https://www.robots.ox.ac.uk/~vgg/software/via/images/via_logo.png)
 
 ## :rocket: Use with Ikomia API
 
@@ -39,17 +38,25 @@ pip install ikomia
 [Change the sample image URL to fit algorithm purpose]
 
 ```python
-import ikomia
 from ikomia.dataprocess.workflow import Workflow
+from ikomia.utils import ik
 
-# Init your workflow
+# Initialize the workflow
 wf = Workflow()
 
-# Add algorithm
-algo = wf.add_task(name="dataset_via", auto_connect=True)
+# Add the dataset loader to load your custom data and annotations
+dataset = wf.add_task(name="dataset_via")
 
-# Run on your image  
-wf.run_on(url="example_image.png")
+# Set parameters
+dataset.set_parameters({
+    "via_json_file":"Path/to/via_json_file.json"
+})                     
+
+# Add the YoloV8 training algorithm
+yolo = wf.add_task(name="train_yolo_v8")
+
+# Launch your training on your data
+wf.run()
 ```
 
 ## :sunny: Use with Ikomia Studio
@@ -62,56 +69,20 @@ Ikomia Studio offers a friendly UI with the same features as the API.
 
 ## :pencil: Set algorithm parameters
 
-[Explain each algorithm parameters]
-
-[Change the sample image URL to fit algorithm purpose]
+- **via_json_via** (str): Annotation file (.json).
 
 ```python
-import ikomia
 from ikomia.dataprocess.workflow import Workflow
+from ikomia.utils import ik
 
-# Init your workflow
+# Initialize the workflow
 wf = Workflow()
 
-# Add algorithm
-algo = wf.add_task(name="dataset_via", auto_connect=True)
+# Add the dataset loader to load your custom data and annotations
+dataset = wf.add_task(name="dataset_via")
 
-algo.set_parameters({
-    "param1": "value1",
-    "param2": "value2",
-    ...
+# Set parameters
+dataset.set_parameters({
+    "via_json_file":"Path/to/via_json_file.json"
 })
-
-# Run on your image  
-wf.run_on(url="example_image.png")
-
 ```
-
-## :mag: Explore algorithm outputs
-
-Every algorithm produces specific outputs, yet they can be explored them the same way using the Ikomia API. For a more in-depth understanding of managing algorithm outputs, please refer to the [documentation](https://ikomia-dev.github.io/python-api-documentation/advanced_guide/IO_management.html).
-
-```python
-import ikomia
-from ikomia.dataprocess.workflow import Workflow
-
-# Init your workflow
-wf = Workflow()
-
-# Add algorithm
-algo = wf.add_task(name="dataset_via", auto_connect=True)
-
-# Run on your image  
-wf.run_on(url="example_image.png")
-
-# Iterate over outputs
-for output in algo.get_outputs()
-    # Print information
-    print(output)
-    # Export it to JSON
-    output.to_json()
-```
-
-## :fast_forward: Advanced usage 
-
-[optional]
