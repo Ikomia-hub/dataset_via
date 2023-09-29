@@ -102,6 +102,8 @@ class DatasetViaFactory(dataprocess.CTaskFactory):
         self.info.icon_path = "icons/vgg_logo.png"
         self.info.version = "1.1.0"
         self.info.keywords = "vgg,dataset,annotation,json,train,dnn"
+        self.info.algo_type = core.AlgoType.DATASET
+        self.info.algo_tasks = "CLASSIFICATION,OBJECT_DETECTION,INSTANCE_SEGMENTATION"
 
     def create(self, param=None):
         # Create process object
